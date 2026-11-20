@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>UNIVA · Una comunidad que transforma</title>
+<meta name="description" content="UNIVA conecta fundaciones, ONG, grupos de iglesia y comedores con personas que quieren colaborar.">
+<meta name="theme-color" content="#2f8f6b">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="UNIVA">
+<meta property="og:title" content="UNIVA · Una comunidad que transforma">
+<meta property="og:description" content="Mirá qué necesitan las organizaciones de tu ciudad y sumate a ayudar.">
+<meta property="og:image" content="icons/icon-512.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6f9f7; --card:#ffffff; --ink:#1f2b26; --muted:#6b7a73; --line:#e1ebe6;
+  --brand:#2f8f6b; --brand-d:#23735a; --brand-soft:#def2ea; --teal:#5bbfb0; --lime:#8fcf9c;
+  --green:#2f9e6e; --green-soft:#dff3ea; --blue:#3a78c2; --blue-soft:#e2edf9;
+  --violet:#7a59c2; --violet-soft:#ece6f8; --amber:#c98a13; --amber-soft:#fbefd4;
+  --red:#c9413b; --red-soft:#fde2e0; --radius:16px; --shadow:0 2px 10px rgba(20,60,45,.07);
+  --safe-b:env(safe-area-inset-bottom,0px); --safe-t:env(safe-area-inset-top,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root{--bg:#141a17;--card:#1d2522;--ink:#eaf2ee;--muted:#9aaba3;--line:#2e3a35;
+  --brand-soft:#1e3a31;--green-soft:#1f3a2e;--blue-soft:#1f2c3d;--violet-soft:#2c2540;--amber-soft:#3a2f17;--red-soft:#4a2321;--shadow:none}
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Nunito,system-ui,sans-serif;background:var(--bg);color:var(--ink);font-size:16px;line-height:1.45;-webkit-tap-highlight-color:transparent}
+a{color:var(--brand)}
+header{position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:1px solid var(--line);padding-top:var(--safe-t)}
+.top{max-width:1080px;margin:0 auto;display:flex;align-items:center;gap:12px;padding:10px 16px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:20px;text-decoration:none;color:var(--ink)}
+.logo svg{width:40px;height:40px;border-radius:10px;box-shadow:0 1px 4px rgba(0,0,0,.12);flex:none}
+.logo small{display:block;font-size:12px;font-weight:600;color:var(--muted)}
+nav.main{display:flex;gap:2px;margin-left:auto}
+nav.main a{text-decoration:none;color:var(--muted);font-weight:700;padding:8px 12px;border-radius:999px;font-size:15px;display:flex;align-items:center;gap:6px}
+nav.main a.on{background:var(--brand-soft);color:var(--brand-d)}
+nav.main .ic{display:none}
+@media (prefers-color-scheme:dark){nav.main a.on{color:var(--lime)}}
+.acct{border:0;background:var(--brand-soft);color:var(--brand-d);font:inherit;font-weight:800;padding:8px 12px;border-radius:999px;cursor:pointer;display:flex;align-items:center;gap:6px;font-size:14px;white-space:nowrap}
+.acct img{width:24px;height:24px;border-radius:50%}
+@media (prefers-color-scheme:dark){.acct{color:var(--lime)}}
+main{max-width:1080px;margin:0 auto;padding:20px 16px 40px}
+@media (max-width:760px){
+  nav.main{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--line);justify-content:space-around;padding:6px 4px calc(6px + var(--safe-b));z-index:30;margin:0}
+  nav.main a{flex-direction:column;gap:1px;font-size:11px;padding:5px 6px;border-radius:12px;flex:1;text-align:center}
+  nav.main .ic{display:block;font-size:20px;line-height:1}
+  main{padding-bottom:calc(96px + var(--safe-b))}
+  .acct .lbl{display:none}
+  .top{padding:8px 14px}
+  .logo{font-size:18px}
+}
+.banner{background:var(--amber-soft);border-radius:12px;padding:10px 14px;font-size:14px;margin-bottom:16px;display:none}
+.hero{background:linear-gradient(135deg,var(--brand) 0%,var(--teal) 100%);color:#fff;border-radius:24px;padding:30px 24px;margin-bottom:22px}
+.hero .kick{font-weight:800;letter-spacing:.5px;opacity:.9;margin-bottom:6px}
+.hero h1{margin:0 0 8px;font-size:clamp(25px,5vw,38px);line-height:1.15}
+.hero p{margin:0 0 20px;font-size:17px;opacity:.95;max-width:580px}
+.hero .btns{display:flex;gap:10px;flex-wrap:wrap}
+.btn{border:0;cursor:pointer;font:inherit;font-weight:800;padding:12px 18px;border-radius:12px;background:var(--brand);color:#fff;text-decoration:none;display:inline-flex;align-items:center;gap:6px;font-size:15px}
+.btn:hover{background:var(--brand-d)}
+.btn.white{background:#fff;color:var(--brand-d)}
+.btn.ghost{background:transparent;color:inherit;border:2px solid currentColor}
+.btn.soft{background:var(--brand-soft);color:var(--brand-d)}
+@media (prefers-color-scheme:dark){.btn.soft{color:var(--lime)}}
+.btn.danger{background:var(--red)}
+.btn.small{padding:8px 12px;font-size:14px;border-radius:10px}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px}
+.stat{background:var(--card);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);border:1px solid var(--line)}
+.stat b{display:block;font-size:28px;color:var(--brand)}
+.stat span{color:var(--muted);font-size:14px}
+h2{font-size:22px;margin:28px 0 12px}
+.how{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.how div{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px}
+.how .n{width:30px;height:30px;border-radius:50%;background:var(--brand-soft);color:var(--brand-d);display:grid;place-items:center;font-weight:800;margin-bottom:8px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:8px}
+.card h3{margin:0;font-size:18px}
+.card .org{font-size:14px;color:var(--muted);font-weight:700;cursor:pointer}
+.card .org:hover{color:var(--brand)}
+.card p{margin:0;color:var(--muted);font-size:15px}
+.tags{display:flex;gap:6px;flex-wrap:wrap}
+.tag{font-size:12px;font-weight:800;padding:4px 9px;border-radius:999px;background:var(--line);color:var(--ink)}
+.tag.urg{background:var(--red-soft);color:var(--red)}
+.tag.ok{background:var(--green-soft);color:var(--green)}
+.tag.ver{background:var(--blue-soft);color:var(--blue)}
+.c-Alimentos{background:var(--amber-soft);color:var(--amber)}
+.c-Ropa{background:var(--violet-soft);color:var(--violet)}
+.c-Voluntariado{background:var(--green-soft);color:var(--green)}
+.c-Dinero{background:var(--blue-soft);color:var(--blue)}
+.c-Útiles{background:var(--brand-soft);color:var(--brand-d)}
+.bar{height:10px;background:var(--line);border-radius:999px;overflow:hidden}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--lime));border-radius:999px;transition:width .4s}
+.prog{font-size:13px;color:var(--muted);display:flex;justify-content:space-between}
+.card .foot{margin-top:auto;display:flex;gap:8px;align-items:center;padding-top:6px;flex-wrap:wrap}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.chip{border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-weight:700;font-size:14px;padding:7px 12px;border-radius:999px;cursor:pointer}
+.chip.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+input,select,textarea{font:inherit;width:100%;padding:11px 12px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink)}
+textarea{min-height:80px;resize:vertical}
+label{font-weight:700;font-size:14px;display:block;margin:12px 0 4px}
+.search{display:flex;gap:8px;margin-bottom:10px}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px;max-width:640px}
+.tabs{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.empty{text-align:center;color:var(--muted);padding:40px 16px;background:var(--card);border:1px dashed var(--line);border-radius:var(--radius)}
+.orghead{display:flex;gap:16px;align-items:center;margin-bottom:12px}
+.avatar{width:60px;height:60px;border-radius:18px;display:grid;place-items:center;font-size:26px;font-weight:800;color:#fff;flex:none}
+.contact{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.modal-bg{position:fixed;inset:0;background:rgba(10,20,15,.5);display:none;align-items:flex-end;justify-content:center;z-index:50}
+.modal-bg.show{display:flex}
+.modal{background:var(--card);width:100%;max-width:520px;border-radius:22px 22px 0 0;padding:22px 22px calc(22px + var(--safe-b));max-height:92vh;overflow:auto}
+@media(min-width:640px){.modal-bg{align-items:center;padding:20px}.modal{border-radius:22px;padding:22px}}
+.modal h3{margin:0 0 4px;font-size:20px}
+.x{float:right;border:0;background:var(--line);color:var(--ink);width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:18px}
+.toast{position:fixed;bottom:calc(90px + var(--safe-b));left:50%;transform:translateX(-50%) translateY(200px);background:var(--ink);color:var(--bg);padding:12px 18px;border-radius:12px;font-weight:700;transition:transform .3s;z-index:60;max-width:90vw}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.err{color:var(--red);font-size:14px;margin-top:8px;min-height:1em}
+.thanks{text-align:center;padding:10px 0}
+.thanks .big{font-size:52px}
+.list{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+.li{display:flex;justify-content:space-between;gap:10px;font-size:14px;padding:10px 12px;background:var(--bg);border-radius:10px;align-items:center;flex-wrap:wrap}
+.muted{color:var(--muted)}
+.alias{background:var(--blue-soft);border-radius:12px;padding:12px 14px;margin:10px 0;display:flex;flex-direction:column;gap:6px;text-align:left}
+.alias-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.alias-txt{font-size:18px;color:var(--blue);word-break:break-all}
+.install{display:none;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;margin-bottom:18px;align-items:center;gap:12px}
+.install.show{display:flex}
+.install svg{width:44px;height:44px;border-radius:12px;flex:none}
+.gbtn{background:#fff;color:#3c4043;border:1px solid #dadce0}
+.gbtn:hover{background:#f6f8fa}
+@media(max-width:560px){.stats b{font-size:22px}.stat{padding:12px}.row2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+  <div class="top">
+    <a class="logo" href="#inicio" aria-label="UNIVA, inicio">
+      <svg viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" rx="24" fill="#fff"/><g fill="none" stroke-width="7.5"><circle cx="38" cy="58" r="21" stroke="#2f8f6b"/><circle cx="64" cy="64" r="21" stroke="#8fcf9c"/><circle cx="55" cy="38" r="21" stroke="#5bbfb0"/><path d="M24.8 41.7 A21 21 0 0 1 44.2 37.9" stroke="#2f8f6b"/><path d="M64.7 43.0 A21 21 0 0 1 81.8 52.9" stroke="#8fcf9c"/><path d="M54.3 59.0 A21 21 0 0 1 37.2 49.1" stroke="#5bbfb0"/></g></svg>
+      <span>UNIVA<small>Una comunidad que transforma</small></span>
+    </a>
+    <nav class="main" id="nav">
+      <a href="#inicio" data-v="inicio"><span class="ic">🏠</span>Inicio</a>
+      <a href="#necesidades" data-v="necesidades"><span class="ic">🙌</span>Necesidades</a>
+      <a href="#organizaciones" data-v="organizaciones"><span class="ic">🤝</span>Organizaciones</a>
+      <a href="#entregas" data-v="entregas"><span class="ic">📍</span>Dónde llevar</a>
+      <a href="#publicar" data-v="publicar"><span class="ic">➕</span>Publicar</a>
+    </nav>
+    <button class="acct" id="acct" style="margin-left:auto"></button>
+  </div>
+</header>
+<main>
+  <div class="banner" id="banner"></div>
+  <div class="install" id="install">
+    <svg viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" rx="24" fill="#fff"/><g fill="none" stroke-width="7.5"><circle cx="38" cy="58" r="21" stroke="#2f8f6b"/><circle cx="64" cy="64" r="21" stroke="#8fcf9c"/><circle cx="55" cy="38" r="21" stroke="#5bbfb0"/><path d="M24.8 41.7 A21 21 0 0 1 44.2 37.9" stroke="#2f8f6b"/><path d="M64.7 43.0 A21 21 0 0 1 81.8 52.9" stroke="#8fcf9c"/><path d="M54.3 59.0 A21 21 0 0 1 37.2 49.1" stroke="#5bbfb0"/></g></svg>
+    <div style="flex:1"><b>Instalá UNIVA en tu celular</b><div class="muted" style="font-size:14px" id="installTxt">Tenela a mano como una app, sin ocupar espacio.</div></div>
+    <button class="btn small" id="installBtn">Instalar</button>
+    <button class="x" id="installX" aria-label="Cerrar">×</button>
+  </div>
+  <div id="view"></div>
+</main>
+
+<div class="modal-bg" id="modalBg"><div class="modal" id="modal"></div></div>
+<div class="toast" id="toast"></div>
+
+<script type="module">
+// =====================================================================
+//  CONFIGURACIÓN — pegá acá los datos de tu proyecto de Firebase
+//  (Consola de Firebase → Configuración del proyecto → Tus apps → Web)
+// =====================================================================
+const FIREBASE_CONFIG = {
+  apiKey: "AIzaSyCzkhnB3X0wUhTEx-G1IJMbg3R7OJlivio",
+  authDomain: "univa-b28b5.firebaseapp.com",
+  projectId: "univa-b28b5",
+  storageBucket: "univa-b28b5.firebasestorage.app",
+  messagingSenderId: "303212196229",
+  appId: "1:303212196229:web:51f89336860d37fc9494ec"
+};
+// Dirección pública de la app (para los textos que se comparten).
+const APP_URL = location.origin + location.pathname;
+// =====================================================================
+
+const FB = "https://www.gstatic.com/firebasejs/10.12.2/";
+const CATS = ["Alimentos","Ropa","Útiles","Medicamentos","Voluntariado","Dinero","Otro"];
+const TIPOS = ["Fundación","ONG","Grupo de iglesia","Comedor / merendero","Grupo vecinal","Otro"];
+const COLORS = ["#2f8f6b","#3a78c2","#7a59c2","#c98a13","#c9413b","#2a9d8f"];
+const S = { orgs:[], needs:[], pledges:[], contacts:{}, mode:"loading", user:null, isAdmin:false,
+            cat:"Todas", q:"", tipo:"Todos", pubTab:"necesidad", preOrg:"" };
+let F = null; // funciones de Firebase cargadas
+let db = null, auth = null;
+
+// ---------- utilidades ----------
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const $ = id => document.getElementById(id);
+const orgById = id => S.orgs.find(o => o.id === id);
+const initials = n => String(n||"?").trim().split(/\s+/).slice(0,2).map(w=>w[0]).join("").toUpperCase();
+const colorFor = id => COLORS[[...String(id)].reduce((a,c)=>a+c.charCodeAt(0),0) % COLORS.length];
+const fmt = n => Number(n||0).toLocaleString("es-AR");
+const uid = () => S.user ? S.user.uid : null;
+const canManage = o => !!o && (S.isAdmin || (S.user && o.ownerUid === S.user.uid));
+const myOrgs = () => S.orgs.filter(o => S.isAdmin || (S.user && o.ownerUid === S.user.uid));
+function ago(t){ if(!t) return ""; const d=(Date.now()-t)/86400000; if(d<1) return "hoy"; if(d<2) return "ayer"; return `hace ${Math.floor(d)} días`; }
+const aportado = id => S.pledges.filter(p=>p.needId===id).reduce((a,p)=>a+(Number(p.cantidad)||0),0);
+const nAportes = id => S.pledges.filter(p=>p.needId===id).length;
+function toast(msg){ const t=$("toast"); t.textContent=msg; t.classList.add("show"); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove("show"),2800); }
+function waLink(num){ const d=String(num||"").replace(/\D/g,""); return d.length>=8 ? "https://wa.me/"+d : null; }
+function diasRestantes(n){ if(!n.fechaLimite) return null; const fin=new Date(n.fechaLimite+"T23:59:59"); if(isNaN(fin)) return null; return Math.ceil((fin-Date.now())/86400000)-1; }
+function plazoTag(n){ const d=diasRestantes(n); if(d===null||n.estado==="cubierta") return "";
+  if(d<0) return `<span class="tag">Finalizada</span>`; if(d===0) return `<span class="tag urg">⏳ Termina hoy</span>`;
+  return `<span class="tag ${d<=3?"urg":""}">⏳ Quedan ${d} día${d===1?"":"s"}</span>`; }
+function mapsLink(o){ const q=[o.direccion,o.ciudad].filter(Boolean).join(", "); return q ? "https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(q) : null; }
+function shareText(n){ const o=orgById(n.orgId)||{}; const meta=Number(n.meta)||0;
+  return `🤝 ${o.nombre||"Una organización"} necesita: ${n.titulo}${meta?` (meta: ${meta} ${n.unidad||""})`:""}.${n.categoria==="Dinero"&&o.alias?` Alias: ${o.alias}${o.titular?` (titular: ${o.titular})`:""}.`:""}${n.fechaLimite?` Hasta el ${new Date(n.fechaLimite+"T12:00").toLocaleDateString("es-AR")}.`:""} ¡Sumate desde UNIVA! ${APP_URL}`; }
+function errMsg(e){
+  const c = e && (e.code||"");
+  if (c.includes("permission-denied")) return "No tenés permiso para hacer esto.";
+  if (c.includes("unavailable")) return "Sin conexión. Probá de nuevo en un momento.";
+  return "No se pudo completar ("+(c||e?.message||"error")+").";
+}
+
+// ---------- capa de datos: Firebase o modo demostración ----------
+async function addDoc(col, data){
+  data.creado = Date.now();
+  if (S.mode === "live") { const ref = await F.addDoc(F.collection(db, col), data); return ref.id; }
+  const id = "d"+Math.random().toString(36).slice(2,10); S[col] && S[col].push({id, ...data}); render(); return id;
+}
+async function setDocId(col, id, data){
+  if (S.mode === "live") return F.setDoc(F.doc(db, col, id), data);
+}
+async function updateDoc(col, id, data){
+  if (S.mode === "live") return F.updateDoc(F.doc(db, col, id), data);
+  Object.assign(S[col].find(x=>x.id===id), data); render();
+}
+async function deleteMany(items){ // items: [[col,id],...] — se borran en lotes
+  if (S.mode === "live") {
+    for (let i=0;i<items.length;i+=400){
+      const b = F.writeBatch(db);
+      items.slice(i,i+400).forEach(([c,id])=>b.delete(F.doc(db,c,id)));
+      await b.commit();
+    }
+    return;
+  }
+  items.forEach(([c,id])=>{ if(S[c]) S[c]=S[c].filter(x=>x.id!==id); }); render();
+}
+
+function demoData(){
+  const now=Date.now(), d=86400000;
+  S.orgs=[
+    {id:"o1",nombre:"Comedor Los Girasoles (ejemplo)",tipo:"Comedor / merendero",ciudad:"Barrio San Martín",descripcion:"Damos la merienda a 80 chicos de lunes a viernes.",direccion:"Calle de ejemplo 123",horario:"Lun a vie de 16 a 19 h",alias:"girasoles.ejemplo",titular:"Asociación Civil Los Girasoles (ejemplo)",verificada:true,ownerUid:"demo",creado:now-9*d},
+    {id:"o2",nombre:"Grupo Misionero Parroquial (ejemplo)",tipo:"Grupo de iglesia",ciudad:"Centro",descripcion:"Recorremos barrios con ropa y comida los sábados.",ownerUid:"demo",creado:now-20*d},
+    {id:"o3",nombre:"Fundación Huellitas (ejemplo)",tipo:"Fundación",ciudad:"Zona norte",descripcion:"Rescate y adopción de perros y gatos.",ownerUid:"demo",creado:now-30*d}];
+  S.needs=[
+    {id:"n1",orgId:"o1",titulo:"Leche para la merienda",categoria:"Alimentos",descripcion:"Leche larga vida para todo el mes.",meta:60,unidad:"litros",urgente:true,estado:"abierta",creado:now-d},
+    {id:"n2",orgId:"o2",titulo:"Abrigos para el invierno",categoria:"Ropa",descripcion:"Camperas y buzos en buen estado.",meta:100,unidad:"prendas",estado:"abierta",creado:now-3*d,fechaLimite:new Date(now+6*d).toISOString().slice(0,10)},
+    {id:"n3",orgId:"o1",titulo:"Voluntarios para apoyo escolar",categoria:"Voluntariado",descripcion:"Martes y jueves de 17 a 19 h.",meta:6,unidad:"personas",estado:"abierta",creado:now-5*d},
+    {id:"n4",orgId:"o1",titulo:"Fondo para garrafas",categoria:"Dinero",descripcion:"Para cocinar todo el mes.",meta:60000,unidad:"$",urgente:true,estado:"abierta",creado:now-2*d}];
+  S.pledges=[{id:"p1",needId:"n1",orgId:"o1",nombre:"Laura",cantidad:12,creado:now-d},{id:"p2",needId:"n2",orgId:"o2",nombre:"Familia Gómez",cantidad:30,creado:now-2*d},{id:"p3",needId:"n4",orgId:"o1",nombre:"Anónimo",cantidad:15000,creado:now-d}];
+}
+
+const configured = () => FIREBASE_CONFIG.projectId && !FIREBASE_CONFIG.projectId.includes("PEGAR");
+
+async function init(){
+  render(); renderAcct();
+  if (!configured()) return goDemo("Modo demostración: todavía no se configuró Firebase, así que ves datos de ejemplo y nada se guarda. Seguí la guía LEEME para activarla.");
+  try {
+    const [app, fs, au] = await Promise.all([import(FB+"firebase-app.js"), import(FB+"firebase-firestore.js"), import(FB+"firebase-auth.js")]);
+    F = {...fs, ...au};
+    const fbApp = app.initializeApp(FIREBASE_CONFIG);
+    db = fs.initializeFirestore(fbApp, { localCache: fs.persistentLocalCache() });
+    auth = au.getAuth(fbApp);
+    S.mode = "live";
+    au.getRedirectResult(auth).catch(()=>{});
+    au.onAuthStateChanged(auth, async u => {
+      S.user = u; S.isAdmin = false;
+      if (u) { try { S.isAdmin = (await fs.getDoc(fs.doc(db,"admins",u.uid))).exists(); } catch(e){} }
+      renderAcct(); subscribeContacts(); render();
+    });
+    let loaded = 0;
+    const t = setTimeout(()=>{ if(loaded<3) banner("Todavía no se pudieron cargar los datos. Revisá tu conexión."); }, 10000);
+    for (const col of ["orgs","needs","pledges"]) {
+      fs.onSnapshot(fs.collection(db, col), snap => {
+        S[col] = snap.docs.map(d => ({id:d.id, ...d.data()}));
+        if (++loaded >= 3) { clearTimeout(t); banner(""); }
+        render();
+      }, e => banner("No se pudieron cargar los datos: "+errMsg(e)));
+    }
+  } catch(e) {
+    console.error(e); goDemo("No se pudo conectar con el servidor. Mostrando datos de ejemplo.");
+  }
+}
+function goDemo(msg){ S.mode="demo"; S.user={uid:"demo",displayName:"Demo"}; demoData(); banner(msg); renderAcct(); render(); }
+function banner(msg){ const b=$("banner"); b.style.display = msg ? "block":"none"; b.innerHTML = msg ? esc(msg) : ""; }
+
+// Contactos de quienes colaboran: solo los ve la organización (y el administrador)
+let contactUnsubs = [];
+function subscribeContacts(){
+  contactUnsubs.forEach(u=>u()); contactUnsubs=[]; S.contacts={};
+  if (S.mode!=="live" || !S.user) return;
+  const q = S.isAdmin ? [F.collection(db,"pledgeContacts")]
+    : myOrgs().map(o => F.query(F.collection(db,"pledgeContacts"), F.where("orgId","==",o.id)));
+  q.forEach(qq => contactUnsubs.push(F.onSnapshot(qq, snap => { snap.docs.forEach(d => S.contacts[d.id] = d.data()); render(); }, ()=>{})));
+}
+let lastMyOrgKey = "";
+function maybeResubscribeContacts(){
+  const k = myOrgs().map(o=>o.id).sort().join(",");
+  if (k !== lastMyOrgKey) { lastMyOrgKey = k; subscribeContacts(); }
+}
+
+// ---------- cuenta ----------
+async function login(){
+  if (S.mode !== "live") return toast("En modo demostración no hace falta ingresar.");
+  const provider = new F.GoogleAuthProvider();
+  try { await F.signInWithPopup(auth, provider); toast("¡Hola! Ya ingresaste."); }
+  catch(e){
+    if (e.code === "auth/popup-blocked" || e.code === "auth/operation-not-supported-in-this-environment") return F.signInWithRedirect(auth, provider);
+    if (e.code !== "auth/popup-closed-by-user" && e.code !== "auth/cancelled-popup-request") toast("No se pudo ingresar: "+(e.code||""));
+  }
+}
+function renderAcct(){
+  const b = $("acct");
+  if (S.mode==="demo") { b.innerHTML = `👤 <span class="lbl">Demo</span>`; b.onclick=()=>location.hash="cuenta"; return; }
+  if (!S.user) { b.innerHTML = `👤 <span class="lbl">Ingresar</span>`; b.onclick = login; return; }
+  const pic = S.user.photoURL ? `<img src="${esc(S.user.photoURL)}" alt="" referrerpolicy="no-referrer">` : "👤";
+  b.innerHTML = `${pic} <span class="lbl">Mi cuenta</span>`; b.onclick = ()=>location.hash="cuenta";
+}
+function loginCard(motivo){
+  return `<div class="panel" style="text-align:center;margin:0 auto">
+    <div style="font-size:42px">🔐</div><h3 style="margin:6px 0">Ingresá para ${esc(motivo)}</h3>
+    <p class="muted">Las organizaciones ingresan con su cuenta de Google. Así solo vos podés editar o borrar lo que publicás.</p>
+    <button class="btn gbtn" id="loginBtn">
+      <svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.6-.4-3.9z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.6-.4-3.9z"/></svg>
+      Continuar con Google</button>
+  </div>`;
+}
+
+// ---------- vistas ----------
+const VIEWS = ["inicio","necesidades","organizaciones","entregas","publicar","cuenta"];
+function currentView(){ const h=(location.hash||"#inicio").slice(1); return h || "inicio"; }
+window.addEventListener("hashchange", ()=>{ render(); window.scrollTo(0,0); });
+
+function render(){
+  maybeResubscribeContacts();
+  const v = currentView();
+  document.querySelectorAll("#nav a").forEach(a=>a.classList.toggle("on", a.dataset.v===v || (v.startsWith("org-") && a.dataset.v==="organizaciones")));
+  const el = $("view");
+  if (S.mode === "loading") { el.innerHTML = `<div class="empty">Cargando…</div>`; return; }
+  const focused = document.activeElement && document.activeElement.id === "q" ? document.activeElement.selectionStart : null;
+  if (v === "necesidades") el.innerHTML = vNecesidades();
+  else if (v === "organizaciones") el.innerHTML = vOrganizaciones();
+  else if (v === "entregas") el.innerHTML = vEntregas();
+  else if (v === "publicar") el.innerHTML = vPublicar();
+  else if (v === "cuenta") el.innerHTML = vCuenta();
+  else if (v.startsWith("org-")) el.innerHTML = vOrg(v.slice(4));
+  else el.innerHTML = vInicio();
+  bindView();
+  if (focused !== null && $("q")) { $("q").focus(); $("q").setSelectionRange(focused, focused); }
+}
+
+function orgTags(o){ return o && o.verificada ? `<span class="tag ver" title="Verificada por UNIVA">✓ Verificada</span>` : ""; }
+
+function needCard(n){
+  const o = orgById(n.orgId) || {nombre:n.orgNombre||"Organización"};
+  const got=aportado(n.id), meta=Number(n.meta)||0, pct=meta?Math.min(100,Math.round(got/meta*100)):0;
+  const cerrada = n.estado==="cubierta"; const dr = diasRestantes(n); const vencida = dr!==null && dr<0;
+  return `<div class="card">
+    <div class="tags"><span class="tag c-${esc(n.categoria)}">${esc(n.categoria)}</span>
+      ${n.urgente&&!cerrada?`<span class="tag urg">Urgente</span>`:""}${cerrada?`<span class="tag ok">✓ Cubierta</span>`:""}${plazoTag(n)}</div>
+    <h3>${esc(n.titulo)}</h3>
+    <div class="org" data-org="${esc(n.orgId)}">${esc(o.nombre)}${o.ciudad?` · ${esc(o.ciudad)}`:""} ${o.verificada?"<span title='Verificada' style='color:var(--blue)'>✓</span>":""}</div>
+    ${n.descripcion?`<p>${esc(n.descripcion)}</p>`:""}
+    ${meta?`<div class="bar"><i style="width:${pct}%"></i></div><div class="prog"><span><b>${fmt(got)}</b> de ${fmt(meta)} ${esc(n.unidad||"")}</span><span>${pct}%</span></div>`
+          :`<div class="prog"><span>${nAportes(n.id)} colaboraciones</span></div>`}
+    <div class="foot">
+      <button class="btn small" data-help="${esc(n.id)}" ${cerrada||vencida?"disabled":""}>${n.categoria==="Voluntariado"?"Quiero sumarme":"Quiero colaborar"}</button>
+      <button class="btn small soft" data-share="${esc(n.id)}">Compartir</button>
+      <span class="muted" style="font-size:13px;margin-left:auto">${ago(n.creado)}</span>
+    </div></div>`;
+}
+
+function vInicio(){
+  const abiertas = S.needs.filter(n=>n.estado!=="cubierta" && !(diasRestantes(n)<0 && diasRestantes(n)!==null));
+  const urg = abiertas.filter(n=>n.urgente).sort((a,b)=>b.creado-a.creado).slice(0,6);
+  const lista = urg.length ? urg : [...abiertas].sort((a,b)=>b.creado-a.creado).slice(0,6);
+  const camp = abiertas.filter(n=>{const d=diasRestantes(n);return d!==null&&d>=0;}).sort((a,b)=>diasRestantes(a)-diasRestantes(b)).slice(0,6);
+  const logros = S.needs.filter(n=>n.estado==="cubierta").length;
+  return `<section class="hero"><div class="kick">UNIVA · Una comunidad que transforma</div>
+      <h1>Ayudar es más fácil cuando sabés dónde hace falta</h1>
+      <p>Fundaciones, ONG, grupos de iglesia y comedores publican lo que necesitan. Vos elegís cómo dar una mano: donando, sumándote como voluntario o colaborando con dinero.</p>
+      <div class="btns"><a class="btn white" href="#necesidades">Quiero ayudar</a><a class="btn ghost" href="#publicar">Soy una organización</a></div></section>
+    <div class="stats">
+      <div class="stat"><b>${S.orgs.length}</b><span>organizaciones</span></div>
+      <div class="stat"><b>${abiertas.length}</b><span>pedidos abiertos</span></div>
+      <div class="stat"><b>${logros}</b><span>metas cumplidas</span></div></div>
+    <h2>${urg.length?"🔴 Pedidos urgentes":"Últimos pedidos"}</h2>
+    ${lista.length?`<div class="grid">${lista.map(needCard).join("")}</div>`:`<div class="empty">Todavía no hay pedidos publicados.<br><br><a class="btn small" href="#publicar">Publicar el primero</a></div>`}
+    ${camp.length?`<h2>⏳ Campañas que cierran pronto</h2><div class="grid">${camp.map(needCard).join("")}</div>`:""}
+    <h2>¿Cómo funciona?</h2>
+    <div class="how">
+      <div><div class="n">1</div><b>La organización se registra</b><p class="muted">Ingresa con Google y carga sus datos, contacto y alias.</p></div>
+      <div><div class="n">2</div><b>Publica lo que necesita</b><p class="muted">Alimentos, ropa, útiles, voluntarios o dinero, con una meta.</p></div>
+      <div><div class="n">3</div><b>La gente se compromete</b><p class="muted">Cada aporte suma a la barra de progreso.</p></div>
+      <div><div class="n">4</div><b>Coordinan la entrega</b><p class="muted">Por WhatsApp o en el punto de entrega.</p></div></div>`;
+}
+
+function vNecesidades(){
+  const q=S.q.toLowerCase();
+  const list=S.needs.filter(n=>{ if(S.cat!=="Todas"&&n.categoria!==S.cat) return false; if(!q) return true; const o=orgById(n.orgId)||{};
+    return [n.titulo,n.descripcion,o.nombre,o.ciudad].join(" ").toLowerCase().includes(q); })
+    .sort((a,b)=>(a.estado==="cubierta")-(b.estado==="cubierta")||(b.urgente?1:0)-(a.urgente?1:0)||b.creado-a.creado);
+  return `<h2 style="margin-top:0">Necesidades</h2>
+    <div class="search"><input id="q" type="search" placeholder="Buscar por palabra, organización o barrio…" value="${esc(S.q)}"></div>
+    <div class="filters">${["Todas",...CATS].map(c=>`<button class="chip ${S.cat===c?"on":""}" data-cat="${c}">${c}</button>`).join("")}</div>
+    ${list.length?`<div class="grid">${list.map(needCard).join("")}</div>`:`<div class="empty">No hay pedidos con esos filtros.</div>`}`;
+}
+
+function vOrganizaciones(){
+  const q=S.q.toLowerCase();
+  const list=S.orgs.filter(o=>(S.tipo==="Todos"||o.tipo===S.tipo)&&(!q||[o.nombre,o.ciudad,o.descripcion].join(" ").toLowerCase().includes(q)))
+    .sort((a,b)=>(b.verificada?1:0)-(a.verificada?1:0)||a.nombre.localeCompare(b.nombre));
+  return `<h2 style="margin-top:0">Organizaciones</h2>
+    <div class="search"><input id="q" type="search" placeholder="Buscar organización o barrio…" value="${esc(S.q)}"></div>
+    <div class="filters">${["Todos",...TIPOS].map(t=>`<button class="chip ${S.tipo===t?"on":""}" data-tipo="${t}">${t}</button>`).join("")}</div>
+    ${list.length?`<div class="grid">${list.map(o=>{ const ab=S.needs.filter(n=>n.orgId===o.id&&n.estado!=="cubierta").length;
+      return `<div class="card" data-org="${esc(o.id)}" style="cursor:pointer">
+        <div class="orghead" style="margin:0"><div class="avatar" style="width:48px;height:48px;font-size:20px;background:${colorFor(o.id)}">${esc(initials(o.nombre))}</div>
+        <div><h3>${esc(o.nombre)}</h3><div class="muted" style="font-size:14px">${esc(o.tipo)}${o.ciudad?` · ${esc(o.ciudad)}`:""}</div></div></div>
+        ${o.descripcion?`<p>${esc(o.descripcion)}</p>`:""}
+        <div class="tags">${orgTags(o)}<span class="tag">${ab} pedido${ab===1?"":"s"} abierto${ab===1?"":"s"}</span>${o.alias?`<span class="tag c-Dinero">💸 Acepta transferencias</span>`:""}</div>
+      </div>`}).join("")}</div>`:`<div class="empty">No hay organizaciones registradas todavía.<br><br><a class="btn small" href="#publicar">Registrar una</a></div>`}`;
+}
+
+function vEntregas(){
+  const q=S.q.toLowerCase();
+  const list=S.orgs.filter(o=>o.direccion&&(!q||[o.nombre,o.ciudad,o.direccion].join(" ").toLowerCase().includes(q)))
+    .sort((a,b)=>(a.ciudad||"").localeCompare(b.ciudad||"")||a.nombre.localeCompare(b.nombre));
+  return `<h2 style="margin-top:0">¿Dónde llevo mi donación?</h2>
+    <p class="muted" style="margin-top:-6px">Puntos de entrega de las organizaciones, con horario y cómo llegar.</p>
+    <div class="search"><input id="q" type="search" placeholder="Buscar por barrio, calle u organización…" value="${esc(S.q)}"></div>
+    ${list.length?`<div class="grid">${list.map(o=>{ const m=mapsLink(o); const ab=S.needs.filter(n=>n.orgId===o.id&&n.estado!=="cubierta");
+      return `<div class="card">
+        <div class="orghead" style="margin:0"><div class="avatar" style="width:44px;height:44px;font-size:18px;background:${colorFor(o.id)}">${esc(initials(o.nombre))}</div>
+        <div><h3>${esc(o.nombre)}</h3><div class="muted" style="font-size:14px">${esc(o.ciudad||"")}</div></div></div>
+        <p>📍 <b>${esc(o.direccion)}</b>${o.horario?`<br>🕒 ${esc(o.horario)}`:""}</p>
+        ${ab.length?`<div class="tags">${ab.slice(0,4).map(n=>`<span class="tag c-${esc(n.categoria)}">${esc(n.titulo)}</span>`).join("")}</div>`:`<p style="font-size:14px">Sin pedidos abiertos ahora.</p>`}
+        <div class="foot">${m?`<a class="btn small" href="${m}" target="_blank" rel="noopener">Cómo llegar</a>`:""}<button class="btn small soft" data-org="${esc(o.id)}">Ver perfil</button></div>
+      </div>`}).join("")}</div>`:`<div class="empty">Todavía no hay puntos de entrega cargados.</div>`}`;
+}
+
+function vOrg(id){
+  const o=orgById(id);
+  if(!o) return `<div class="empty">No se encontró la organización. <a href="#organizaciones">Volver</a></div>`;
+  const needs=S.needs.filter(n=>n.orgId===id).sort((a,b)=>(a.estado==="cubierta")-(b.estado==="cubierta")||b.creado-a.creado);
+  const wa=waLink(o.whatsapp), m=mapsLink(o), mine=canManage(o);
+  const ids=new Set(needs.map(n=>n.id));
+  const aportes=S.pledges.filter(p=>ids.has(p.needId)).sort((a,b)=>b.creado-a.creado).slice(0,mine?50:8);
+  return `<a href="#organizaciones" class="muted" style="text-decoration:none;font-weight:700">← Organizaciones</a>
+    <div class="panel" style="max-width:none;margin-top:12px">
+      <div class="orghead"><div class="avatar" style="background:${colorFor(o.id)}">${esc(initials(o.nombre))}</div>
+        <div><h2 style="margin:0">${esc(o.nombre)}</h2><div class="muted">${esc(o.tipo)}${o.ciudad?` · ${esc(o.ciudad)}`:""}</div><div class="tags" style="margin-top:4px">${orgTags(o)}</div></div></div>
+      ${o.descripcion?`<p>${esc(o.descripcion)}</p>`:""}
+      <div class="contact">
+        ${wa?`<a class="btn small" href="${wa}" target="_blank" rel="noopener">WhatsApp ${esc(o.whatsapp)}</a>`:""}
+        ${o.email?`<a class="btn small soft" href="mailto:${esc(o.email)}">✉ ${esc(o.email)}</a>`:""}
+        ${o.direccion?(m?`<a class="btn small soft" href="${m}" target="_blank" rel="noopener">📍 ${esc(o.direccion)} · Cómo llegar</a>`:""):""}
+        ${o.horario?`<span class="btn small soft">🕒 ${esc(o.horario)}</span>`:""}
+      </div>
+      ${aliasBlock(o)}
+      ${mine?`<div class="contact" style="border-top:1px solid var(--line);padding-top:12px">
+        <button class="btn small soft" data-newneed="${esc(o.id)}">+ Publicar pedido</button>
+        <button class="btn small soft" data-editorg="${esc(o.id)}">✏️ Editar datos y alias</button>
+        ${S.isAdmin?`<button class="btn small soft" data-verify="${esc(o.id)}">${o.verificada?"Quitar verificación":"✓ Marcar verificada"}</button>`:""}
+        <button class="btn small soft" style="color:var(--red)" data-delorg="${esc(o.id)}">🗑 Eliminar organización</button></div>`:""}
+    </div>
+    <h2>Pedidos</h2>
+    ${needs.length?`<div class="grid">${needs.map(needCard).join("")}</div>`:`<div class="empty">Esta organización todavía no publicó pedidos.</div>`}
+    ${mine&&needs.length?`<h2>Administrar pedidos</h2><div class="list">${needs.map(n=>`<div class="li">
+        <span><b>${esc(n.titulo)}</b>${n.estado==="cubierta"?` <span class="tag ok">✓ Cubierta</span>`:""}</span>
+        <span style="display:flex;gap:6px;flex-wrap:wrap">
+          ${n.estado!=="cubierta"?`<button class="chip" data-close="${esc(n.id)}">✓ Marcar cubierta</button>`:`<button class="chip" data-reopen="${esc(n.id)}">↺ Reabrir</button>`}
+          <button class="chip" style="color:var(--red)" data-del="${esc(n.id)}">🗑 Eliminar</button></span></div>`).join("")}</div>`:""}
+    ${aportes.length?`<h2>${mine?"Colaboraciones recibidas":"Últimas colaboraciones"}</h2>
+      ${mine?`<p class="muted" style="margin-top:-6px;font-size:14px">Los datos de contacto solo los ve tu organización.</p>`:""}
+      <div class="list">${aportes.map(p=>{ const n=S.needs.find(x=>x.id===p.needId)||{}; const c=mine?S.contacts[p.id]:null;
+        return `<div class="li"><span><b>${esc(p.nombre||"Anónimo")}</b> · ${esc(n.titulo||"")}${p.mensaje?` — <i>“${esc(p.mensaje)}”</i>`:""}
+          ${c&&c.contacto?`<br><span class="muted">📞 ${esc(c.contacto)}</span>`:""}</span>
+          <span class="muted">${p.cantidad?fmt(p.cantidad)+" "+esc(n.unidad||""):""} · ${ago(p.creado)}</span></div>`}).join("")}</div>`:""}`;
+}
+
+function vPublicar(){
+  if (!S.user) return `<h2 style="margin-top:0">Publicar</h2>`+loginCard("publicar");
+  const t=S.pubTab;
+  return `<h2 style="margin-top:0">Publicar</h2>
+    <div class="tabs"><button class="chip ${t==="necesidad"?"on":""}" data-tab="necesidad">Nuevo pedido</button><button class="chip ${t==="org"?"on":""}" data-tab="org">Registrar organización</button></div>
+    <div class="panel">${t==="org"?formOrg():formNeed()}</div>`;
+}
+function formOrg(){
+  return `<form id="fOrg">
+    <label>Nombre de la organización *</label><input name="nombre" required maxlength="80" placeholder="Ej.: Comedor Rayito de Sol">
+    <div class="row2"><div><label>Tipo *</label><select name="tipo">${TIPOS.map(t=>`<option>${t}</option>`).join("")}</select></div>
+    <div><label>Ciudad / barrio</label><input name="ciudad" maxlength="60"></div></div>
+    <label>¿Qué hacen?</label><textarea name="descripcion" maxlength="400" placeholder="A quiénes ayudan y cómo."></textarea>
+    <div class="row2"><div><label>WhatsApp</label><input name="whatsapp" maxlength="25" inputmode="tel" placeholder="Ej.: 54 9 370 4123456"></div>
+    <div><label>Email</label><input name="email" type="email" maxlength="80"></div></div>
+    <div class="row2"><div><label>Alias para donaciones</label><input name="alias" maxlength="40"></div>
+    <div><label>Titular de la cuenta</label><input name="titular" maxlength="80"></div></div>
+    <p class="muted" style="font-size:13px;margin:4px 0 0">El alias se muestra junto al titular para que la gente confirme que transfiere a la cuenta correcta.</p>
+    <div class="row2"><div><label>Dirección / punto de entrega</label><input name="direccion" maxlength="120"></div>
+    <div><label>Horario para recibir</label><input name="horario" maxlength="60" placeholder="Ej.: Sáb de 9 a 12 h"></div></div>
+    <div class="err" id="eOrg"></div><button class="btn">Registrar organización</button></form>`;
+}
+function formNeed(){
+  const mias = myOrgs();
+  if(!mias.length) return `<p>Primero registrá tu organización.</p><button class="btn soft" data-tab="org">Registrar organización</button>`;
+  return `<form id="fNeed">
+    <label>Organización *</label><select name="orgId">${[...mias].sort((a,b)=>a.nombre.localeCompare(b.nombre)).map(o=>`<option value="${esc(o.id)}" ${o.id===S.preOrg?"selected":""}>${esc(o.nombre)}</option>`).join("")}</select>
+    <label>¿Qué necesitan? *</label><input name="titulo" required maxlength="80" placeholder="Ej.: Pañales talle G">
+    <label>Categoría *</label><select name="categoria">${CATS.map(c=>`<option>${c}</option>`).join("")}</select>
+    <label>Detalle</label><textarea name="descripcion" maxlength="400" placeholder="Para qué es, plazos, cómo entregar…"></textarea>
+    <div class="row2"><div><label>Meta (cantidad)</label><input name="meta" type="number" min="0" inputmode="numeric"></div>
+    <div><label>Unidad</label><input name="unidad" maxlength="20" placeholder="kg, paquetes, personas, $…"></div></div>
+    <label>Fecha límite de la campaña (opcional)</label><input name="fechaLimite" type="date">
+    <label style="display:flex;gap:8px;align-items:center"><input type="checkbox" name="urgente" style="width:auto"> Es urgente</label>
+    <div class="err" id="eNeed"></div><button class="btn">Publicar pedido</button></form>`;
+}
+function vCuenta(){
+  if (!S.user) return loginCard("administrar tu organización");
+  const mias = myOrgs();
+  return `<h2 style="margin-top:0">Mi cuenta</h2>
+    <div class="panel">
+      <div class="orghead">${S.user.photoURL?`<img src="${esc(S.user.photoURL)}" alt="" referrerpolicy="no-referrer" style="width:56px;height:56px;border-radius:50%">`:`<div class="avatar">👤</div>`}
+        <div><b>${esc(S.user.displayName||"Usuario")}</b><div class="muted">${esc(S.user.email||"")}</div>${S.isAdmin?`<span class="tag ver">Administrador de UNIVA</span>`:""}</div></div>
+      <h3 style="margin:14px 0 6px">${S.isAdmin?"Todas las organizaciones":"Mis organizaciones"}</h3>
+      ${mias.length?`<div class="list">${mias.map(o=>`<div class="li"><span><b>${esc(o.nombre)}</b> ${orgTags(o)}</span><a class="btn small soft" href="#org-${esc(o.id)}">Administrar</a></div>`).join("")}</div>`
+        :`<p class="muted">Todavía no registraste ninguna organización.</p><a class="btn small" href="#publicar" data-tab="org">Registrar organización</a>`}
+      <p class="muted" style="font-size:12px;margin-top:18px">Tu código de usuario: <code>${esc(S.user.uid)}</code></p>
+      ${S.mode==="live"?`<button class="btn small soft" id="logout">Cerrar sesión</button>`:""}
+    </div>`;
+}
+
+// ---------- eventos ----------
+function bindView(){
+  const v=$("view");
+  v.querySelectorAll("[data-cat]").forEach(b=>b.onclick=()=>{S.cat=b.dataset.cat;render();});
+  v.querySelectorAll("[data-tipo]").forEach(b=>b.onclick=()=>{S.tipo=b.dataset.tipo;render();});
+  v.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>{S.pubTab=b.dataset.tab;render();});
+  v.querySelectorAll("[data-org]").forEach(b=>b.onclick=e=>{ const c=e.target.closest("button,a"); if(c&&c!==b) return; const id=b.dataset.org; if(/^[A-Za-z0-9_-]+$/.test(id)) location.hash="org-"+id; });
+  v.querySelectorAll("[data-help]").forEach(b=>b.onclick=e=>{e.stopPropagation();openHelp(b.dataset.help);});
+  v.querySelectorAll("[data-share]").forEach(b=>b.onclick=e=>{e.stopPropagation();openShare(b.dataset.share);});
+  v.querySelectorAll("[data-newneed]").forEach(b=>b.onclick=()=>{S.preOrg=b.dataset.newneed;S.pubTab="necesidad";location.hash="publicar";});
+  v.querySelectorAll("[data-editorg]").forEach(b=>b.onclick=()=>openEditOrg(b.dataset.editorg));
+  v.querySelectorAll("[data-delorg]").forEach(b=>b.onclick=()=>confirmDeleteOrg(b.dataset.delorg));
+  v.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>confirmDelete(b.dataset.del));
+  v.querySelectorAll("[data-verify]").forEach(b=>b.onclick=async()=>{ const o=orgById(b.dataset.verify);
+    try{ await updateDoc("orgs",o.id,{verificada:!o.verificada}); toast(o.verificada?"Verificación quitada":"Organización verificada ✓"); }catch(e){ toast(errMsg(e)); } });
+  v.querySelectorAll("[data-close]").forEach(b=>b.onclick=async()=>{ try{ await updateDoc("needs",b.dataset.close,{estado:"cubierta"}); toast("¡Meta cumplida! 🎉"); }catch(e){ toast(errMsg(e)); } });
+  v.querySelectorAll("[data-reopen]").forEach(b=>b.onclick=async()=>{ try{ await updateDoc("needs",b.dataset.reopen,{estado:"abierta"}); toast("Pedido reabierto"); }catch(e){ toast(errMsg(e)); } });
+  if ($("loginBtn")) $("loginBtn").onclick = login;
+  if ($("logout")) $("logout").onclick = async()=>{ await F.signOut(auth); location.hash="inicio"; toast("Sesión cerrada"); };
+  const q=$("q"); if(q) q.oninput=()=>{ S.q=q.value; render(); };
+
+  const fo=$("fOrg");
+  if(fo) fo.onsubmit=async e=>{ e.preventDefault(); const f=Object.fromEntries(new FormData(fo)); const btn=fo.querySelector("button"); btn.disabled=true;
+    const data={ownerUid:uid(),verificada:false}; for(const k of ["nombre","tipo","ciudad","descripcion","whatsapp","email","alias","titular","direccion","horario"]) data[k]=String(f[k]||"").trim();
+    try{ const id=await addDoc("orgs",data); toast("¡Organización registrada!"); S.preOrg=id; S.pubTab="necesidad"; render(); }
+    catch(err){ $("eOrg").textContent=errMsg(err); btn.disabled=false; } };
+  const fn=$("fNeed");
+  if(fn) fn.onsubmit=async e=>{ e.preventDefault(); const f=Object.fromEntries(new FormData(fn)); const btn=fn.querySelector("button"); btn.disabled=true;
+    try{ await addDoc("needs",{orgId:f.orgId,titulo:f.titulo.trim(),categoria:f.categoria,descripcion:f.descripcion.trim(),meta:Number(f.meta)||0,unidad:f.unidad.trim(),urgente:!!f.urgente,estado:"abierta",fechaLimite:f.fechaLimite||""});
+      toast("¡Pedido publicado!"); location.hash="org-"+f.orgId; }
+    catch(err){ $("eNeed").textContent=errMsg(err); btn.disabled=false; } };
+}
+
+// ---------- ventanas ----------
+function openModal(html){ $("modal").innerHTML=`<button class="x" id="mx" aria-label="Cerrar">×</button>`+html; $("modalBg").classList.add("show"); $("mx").onclick=closeModal; }
+function closeModal(){ $("modalBg").classList.remove("show"); }
+$("modalBg").onclick=e=>{ if(e.target.id==="modalBg") closeModal(); };
+
+function aliasBlock(o){
+  if(!o||!o.alias) return "";
+  return `<div class="alias"><div class="muted" style="font-size:13px;font-weight:700">💸 DONÁ DINERO POR TRANSFERENCIA</div>
+    <div class="alias-row"><b class="alias-txt">${esc(o.alias)}</b><button type="button" class="btn small" data-copyalias="${esc(o.alias)}">Copiar alias</button></div>
+    ${o.titular?`<div style="font-size:14px">Titular: <b>${esc(o.titular)}</b></div>`:""}
+    <div class="muted" style="font-size:12px">Antes de confirmar, revisá que el titular coincida. UNIVA no maneja el dinero: va directo a la organización.</div></div>`;
+}
+document.addEventListener("click", async e=>{ const b=e.target.closest("[data-copyalias]"); if(!b) return; e.stopPropagation();
+  try{ await navigator.clipboard.writeText(b.dataset.copyalias); toast("Alias copiado ✓"); }catch(err){ toast("Alias: "+b.dataset.copyalias); } });
+function contactBlock(o){
+  const wa=waLink(o.whatsapp), m=mapsLink(o), parts=[];
+  if(wa) parts.push(`<a class="btn small" href="${wa}" target="_blank" rel="noopener">WhatsApp ${esc(o.whatsapp)}</a>`);
+  if(o.email) parts.push(`<a class="btn small soft" href="mailto:${esc(o.email)}">✉ ${esc(o.email)}</a>`);
+  if(o.direccion) parts.push(m?`<a class="btn small soft" href="${m}" target="_blank" rel="noopener">📍 ${esc(o.direccion)}</a>`:`<span class="btn small soft">📍 ${esc(o.direccion)}</span>`);
+  return `<div class="contact" style="justify-content:center">${parts.join("")||`<span class="muted">La organización no cargó contacto todavía.</span>`}</div>`;
+}
+
+function openHelp(needId){
+  const n=S.needs.find(x=>x.id===needId); if(!n) return; const o=orgById(n.orgId)||{}; const vol=n.categoria==="Voluntariado";
+  openModal(`<h3>${esc(n.titulo)}</h3><div class="muted">${esc(o.nombre||"")}</div>
+    ${n.categoria==="Dinero"?(o.alias?aliasBlock(o)+`<p class="muted" style="font-size:13px;margin:0">Después de transferir, registrá tu aporte para que sume a la meta.</p>`:`<p class="muted" style="font-size:13px">Esta organización todavía no cargó un alias. Contactala para coordinar.</p>`):""}
+    <form id="fHelp">
+      <label>Tu nombre</label><input name="nombre" maxlength="60" placeholder="Vacío = aparecés como Anónimo">
+      <label>${vol?"¿Cuántas personas se suman?":"¿Cuánto podés aportar?"}${n.unidad?` (${esc(n.unidad)})`:""}</label><input name="cantidad" type="number" min="1" value="1" inputmode="numeric">
+      <label>Teléfono o mail (opcional)</label><input name="contacto" maxlength="80" placeholder="Solo lo ve la organización">
+      <label>Mensaje (opcional)</label><input name="mensaje" maxlength="140" placeholder="¡Fuerza!">
+      <div class="err" id="eHelp"></div>
+      <button class="btn" style="width:100%;justify-content:center;margin-top:8px">Confirmar colaboración</button></form>`);
+  const f=$("fHelp");
+  f.onsubmit=async e=>{ e.preventDefault(); const d=Object.fromEntries(new FormData(f)); const btn=f.querySelector("button"); btn.disabled=true;
+    try{
+      const nombre=d.nombre.trim()||"Anónimo";
+      const pid=await addDoc("pledges",{needId:n.id,orgId:n.orgId,nombre,cantidad:Math.min(10000000,Math.max(1,Number(d.cantidad)||1)),mensaje:d.mensaje.trim()});
+      if(d.contacto.trim()) { try{ await setDocId("pledgeContacts",pid,{needId:n.id,orgId:n.orgId,nombre,contacto:d.contacto.trim(),creado:Date.now()}); }catch(e){} }
+      openModal(`<div class="thanks"><div class="big">💚</div><h3>¡Gracias por sumarte!</h3>
+        <p class="muted">Tu colaboración ya figura en la barra de progreso. ${n.categoria==="Dinero"?"Si todavía no transferiste, acá está el alias:":"Ahora coordiná la entrega con la organización:"}</p>
+        ${n.categoria==="Dinero"?aliasBlock(o):""}${contactBlock(o)}
+        <button class="btn small soft" id="shAfter" style="margin-top:6px">Contale a tus amigos</button></div>`);
+      $("shAfter").onclick=()=>openShare(n.id);
+    }catch(err){ $("eHelp").textContent=errMsg(err); btn.disabled=false; } };
+}
+
+function openShare(needId){
+  const n=S.needs.find(x=>x.id===needId); if(!n) return; const txt=shareText(n);
+  openModal(`<h3>Compartir pedido</h3><p class="muted">Difundilo para que llegue a más gente.</p>
+    <textarea id="shTxt" style="min-height:110px">${esc(txt)}</textarea>
+    <div class="contact">
+      ${navigator.share?`<button class="btn small" id="shNative">Compartir…</button>`:""}
+      <button class="btn small soft" id="shCopy">Copiar texto</button>
+      <a class="btn small" style="background:#25d366" href="https://wa.me/?text=${encodeURIComponent(txt)}" target="_blank" rel="noopener">WhatsApp</a>
+      <a class="btn small" style="background:#1877f2" href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(APP_URL)}" target="_blank" rel="noopener">Facebook</a></div>
+    <p class="muted" style="font-size:13px">📸 Para Instagram: copiá el texto y pegalo en tu historia o publicación, con un sticker de enlace.</p>`);
+  if($("shNative")) $("shNative").onclick=()=>navigator.share({title:"UNIVA",text:$("shTxt").value}).catch(()=>{});
+  $("shCopy").onclick=async()=>{ try{ await navigator.clipboard.writeText($("shTxt").value); toast("Texto copiado ✓"); }catch(e){ const t=$("shTxt"); t.focus(); t.select(); toast("Copialo con Ctrl+C o mantené presionado"); } };
+}
+
+function openEditOrg(id){
+  const o=orgById(id); if(!canManage(o)) return;
+  const fld=(n,l,ph="")=>`<label>${l}</label><input name="${n}" maxlength="120" value="${esc(o[n]||"")}" placeholder="${ph}">`;
+  openModal(`<h3>Editar ${esc(o.nombre)}</h3><form id="fEdit">
+    ${fld("nombre","Nombre")}${fld("alias","Alias para donaciones")}${fld("titular","Titular de la cuenta")}${fld("whatsapp","WhatsApp")}${fld("email","Email")}
+    ${fld("ciudad","Ciudad / barrio")}${fld("direccion","Dirección / punto de entrega")}${fld("horario","Horario para recibir")}
+    <label>¿Qué hacen?</label><textarea name="descripcion" maxlength="400">${esc(o.descripcion||"")}</textarea>
+    <div class="err" id="eEdit"></div><button class="btn" style="width:100%;justify-content:center;margin-top:8px">Guardar cambios</button></form>`);
+  const f=$("fEdit");
+  f.onsubmit=async e=>{ e.preventDefault(); const d=Object.fromEntries(new FormData(f)); const btn=f.querySelector("button"); btn.disabled=true;
+    const ch={}; for(const k in d){ const v=String(d[k]).trim(); if(v!==(o[k]||"")) ch[k]=v; }
+    if(ch.nombre==="") delete ch.nombre;
+    if(!Object.keys(ch).length) return closeModal();
+    try{ await updateDoc("orgs",id,ch); closeModal(); toast("Datos actualizados ✓"); }catch(err){ $("eEdit").textContent=errMsg(err); btn.disabled=false; } };
+}
+
+function confirmDelete(needId){
+  const n=S.needs.find(x=>x.id===needId); if(!n) return; const ps=S.pledges.filter(p=>p.needId===n.id);
+  openModal(`<h3>¿Eliminar “${esc(n.titulo)}”?</h3>
+    <p class="muted">Se borra de la app y no se puede deshacer.${ps.length?` También se borran ${ps.length} colaboración${ps.length===1?"":"es"} registrada${ps.length===1?"":"s"}.`:""}</p>
+    <p class="muted" style="font-size:14px">Si ya se consiguió lo que necesitaban, es mejor <b>marcarlo como cubierto</b>: queda como logro y la gente ve que su ayuda sirvió.</p>
+    <div class="err" id="eDel"></div>
+    <div class="contact"><button class="btn small danger" id="delYes">Sí, eliminar</button>
+      ${n.estado!=="cubierta"?`<button class="btn small soft" id="delCov">Marcar cubierto</button>`:""}<button class="btn small soft" id="delNo">Cancelar</button></div>`);
+  $("delNo").onclick=closeModal;
+  if($("delCov")) $("delCov").onclick=async()=>{ try{ await updateDoc("needs",n.id,{estado:"cubierta"}); closeModal(); toast("¡Meta cumplida! 🎉"); }catch(e){ $("eDel").textContent=errMsg(e); } };
+  $("delYes").onclick=async()=>{ $("delYes").disabled=true;
+    try{ await deleteMany([...ps.flatMap(p=>S.contacts[p.id]?[["pledges",p.id],["pledgeContacts",p.id]]:[["pledges",p.id]]),["needs",n.id]]); closeModal(); toast("Pedido eliminado"); }
+    catch(e){ $("eDel").textContent=errMsg(e); $("delYes").disabled=false; } };
+}
+
+function confirmDeleteOrg(id){
+  const o=orgById(id); if(!o) return;
+  const needs=S.needs.filter(n=>n.orgId===id); const ids=new Set(needs.map(n=>n.id)); const ps=S.pledges.filter(p=>ids.has(p.needId));
+  openModal(`<h3>¿Eliminar “${esc(o.nombre)}”?</h3>
+    <p class="muted">Se borra la organización junto con <b>${needs.length} pedido${needs.length===1?"":"s"}</b> y <b>${ps.length} colaboración${ps.length===1?"":"es"}</b>. No se puede deshacer.</p>
+    <div class="err" id="eDel"></div>
+    <div class="contact"><button class="btn small danger" id="delYes">Sí, eliminar definitivamente</button><button class="btn small soft" id="delNo">Cancelar</button></div>`);
+  $("delNo").onclick=closeModal;
+  $("delYes").onclick=async()=>{ $("delYes").disabled=true; $("eDel").textContent="Eliminando…";
+    try{ await deleteMany([...ps.flatMap(p=>S.contacts[p.id]?[["pledges",p.id],["pledgeContacts",p.id]]:[["pledges",p.id]]),...needs.map(n=>["needs",n.id]),["orgs",id]]);
+      closeModal(); toast("Organización eliminada"); location.hash="organizaciones"; }
+    catch(e){ $("eDel").textContent=errMsg(e); $("delYes").disabled=false; } };
+}
+
+// ---------- app instalable ----------
+let deferredPrompt=null;
+const isStandalone = () => matchMedia("(display-mode: standalone)").matches || navigator.standalone;
+const dismissed = () => { try{ return localStorage.getItem("univa-install-x")==="1"; }catch(e){ return false; } };
+window.addEventListener("beforeinstallprompt", e=>{ e.preventDefault(); deferredPrompt=e; if(!dismissed()) $("install").classList.add("show"); });
+if (/iphone|ipad|ipod/i.test(navigator.userAgent) && !isStandalone() && !dismissed()) {
+  $("installTxt").textContent = "En iPhone: tocá Compartir ⬆️ y después “Agregar a inicio”.";
+  $("installBtn").style.display="none"; $("install").classList.add("show");
+}
+$("installBtn").onclick=async()=>{ if(!deferredPrompt) return; deferredPrompt.prompt(); await deferredPrompt.userChoice; deferredPrompt=null; $("install").classList.remove("show"); };
+$("installX").onclick=()=>{ $("install").classList.remove("show"); try{ localStorage.setItem("univa-install-x","1"); }catch(e){} };
+window.addEventListener("appinstalled", ()=>{ $("install").classList.remove("show"); toast("¡UNIVA quedó instalada! 💚"); });
+if ("serviceWorker" in navigator && location.protocol==="https:") navigator.serviceWorker.register("sw.js").catch(()=>{});
+
+init();
+</script>
+</body>
+</html>

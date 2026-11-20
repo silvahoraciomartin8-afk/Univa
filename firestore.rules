@@ -1,0 +1,71 @@
+rules_version = '2';
+// Reglas de seguridad de UNIVA.
+// Copiá todo este archivo en: Consola de Firebase → Firestore Database → Reglas → Publicar.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() { return request.auth != null; }
+    function isAdmin() {
+      return signedIn() && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    }
+    function ownsOrg(orgId) {
+      return signedIn() && get(/databases/$(database)/documents/orgs/$(orgId)).data.ownerUid == request.auth.uid;
+    }
+    function txt(v, max) { return v is string && v.size() <= max; }
+
+    // Administradores: se agregan a mano desde la consola (documento admins/<código de usuario>).
+    match /admins/{userId} {
+      allow read: if signedIn() && request.auth.uid == userId;
+      allow write: if false;
+    }
+
+    // Organizaciones: todos las ven; cada una la edita su dueño (o un administrador).
+    match /orgs/{orgId} {
+      allow read: if true;
+      allow create: if signedIn()
+        && request.resource.data.ownerUid == request.auth.uid
+        && request.resource.data.verificada == false
+        && txt(request.resource.data.nombre, 80) && request.resource.data.nombre.size() > 0
+        && request.resource.data.keys().hasOnly(['ownerUid','verificada','nombre','tipo','ciudad','descripcion',
+             'whatsapp','email','alias','titular','direccion','horario','creado']);
+      allow update: if isAdmin() || (
+        signedIn() && resource.data.ownerUid == request.auth.uid
+        && request.resource.data.ownerUid == resource.data.ownerUid
+        && request.resource.data.verificada == resource.data.verificada   // solo el admin verifica
+        && txt(request.resource.data.nombre, 80));
+      allow delete: if isAdmin() || (signedIn() && resource.data.ownerUid == request.auth.uid);
+    }
+
+    // Pedidos: todos los ven; solo la organización dueña los crea, edita o borra.
+    match /needs/{needId} {
+      allow read: if true;
+      allow create: if (isAdmin() || ownsOrg(request.resource.data.orgId))
+        && txt(request.resource.data.titulo, 80) && request.resource.data.titulo.size() > 0
+        && request.resource.data.meta is number;
+      allow update: if (isAdmin() || ownsOrg(resource.data.orgId))
+        && request.resource.data.orgId == resource.data.orgId;
+      allow delete: if isAdmin() || ownsOrg(resource.data.orgId);
+    }
+
+    // Colaboraciones: cualquiera puede sumarse (sin cuenta); nadie las modifica; la organización puede borrarlas.
+    match /pledges/{pledgeId} {
+      allow read: if true;
+      allow create: if request.resource.data.keys().hasOnly(['needId','orgId','nombre','cantidad','mensaje','creado'])
+        && request.resource.data.cantidad is number
+        && request.resource.data.cantidad > 0 && request.resource.data.cantidad <= 10000000
+        && txt(request.resource.data.nombre, 60) && txt(request.resource.data.mensaje, 140)
+        && get(/databases/$(database)/documents/needs/$(request.resource.data.needId)).data.orgId == request.resource.data.orgId;
+      allow update: if false;
+      allow delete: if isAdmin() || ownsOrg(resource.data.orgId);
+    }
+
+    // Datos de contacto de quien colabora: privados, solo los ve la organización.
+    match /pledgeContacts/{pledgeId} {
+      allow create: if request.resource.data.keys().hasOnly(['needId','orgId','nombre','contacto','creado'])
+        && txt(request.resource.data.contacto, 80) && txt(request.resource.data.nombre, 60)
+        && exists(/databases/$(database)/documents/pledges/$(pledgeId));
+      allow read, delete: if isAdmin() || (resource != null && ownsOrg(resource.data.orgId));
+      allow update: if false;
+    }
+  }
+}

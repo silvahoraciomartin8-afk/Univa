@@ -1,0 +1,22 @@
+{
+  "name": "UNIVA · Una comunidad que transforma",
+  "short_name": "UNIVA",
+  "description": "Conecta fundaciones, ONG, grupos de iglesia y comedores con personas que quieren colaborar.",
+  "lang": "es-AR",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f6f9f7",
+  "theme_color": "#2f8f6b",
+  "categories": ["social", "lifestyle"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Ver pedidos", "url": "./#necesidades" },
+    { "name": "Publicar", "url": "./#publicar" }
+  ]
+}
