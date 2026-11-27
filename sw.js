@@ -1,6 +1,6 @@
 // Service worker de UNIVA: permite instalarla y abrirla aunque falle la conexión.
 // Cuando cambies index.html, subí el número de versión para que todos reciban la nueva.
-const VERSION = "univa-v3";
+const VERSION = "univa-v4";
 const SHELL = ["./", "./index.html", "./manifest.json", "./icons/icon-192.png", "./icons/icon-512.png"];
 
 self.addEventListener("install", e => {
