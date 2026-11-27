@@ -130,6 +130,15 @@ label{font-weight:700;font-size:14px;display:block;margin:12px 0 4px}
 .alias{background:var(--blue-soft);border-radius:12px;padding:12px 14px;margin:10px 0;display:flex;flex-direction:column;gap:6px;text-align:left}
 .alias-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .alias-txt{font-size:18px;color:var(--blue);word-break:break-all}
+.hero{display:grid;grid-template-columns:1.25fr 1fr;align-items:center;gap:12px}
+.hero .ilus svg{width:100%;height:auto;display:block;max-width:400px;margin-left:auto}
+@media (max-width:760px){.hero{grid-template-columns:1fr;padding-top:18px}.hero .ilus{order:-1}.hero .ilus svg{max-width:250px;margin:0 auto}}
+.fotos{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:6px}
+.fotos figure{margin:0;position:relative;border-radius:var(--radius);overflow:hidden;aspect-ratio:3/2;background:var(--line)}
+.fotos img{width:100%;height:100%;object-fit:cover;display:block}
+.fotos figcaption{position:absolute;inset:auto 0 0 0;padding:40px 16px 14px;color:#fff;background:linear-gradient(transparent,rgba(10,40,30,.82));display:flex;flex-direction:column;gap:2px}
+.fotos figcaption b{font-size:18px}.fotos figcaption span{font-size:14px;opacity:.92}
+@media (max-width:640px){.fotos{grid-template-columns:1fr}}
 .install{display:none;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;margin-bottom:18px;align-items:center;gap:12px}
 .install.show{display:flex}
 .install svg{width:44px;height:44px;border-radius:12px;flex:none}
@@ -383,20 +392,80 @@ function needCard(n){
     </div></div>`;
 }
 
+const ILUS = `<svg viewBox="0 0 420 300" role="img" aria-label="Personas ayudando: una entrega una caja con un corazón y otras se suman">
+  <!-- fondo -->
+  <circle cx="210" cy="150" r="128" fill="#ffffff" opacity=".18"/>
+  <g fill="none" stroke="#ffffff" stroke-width="5" opacity=".28">
+    <circle cx="170" cy="168" r="70"/><circle cx="252" cy="176" r="70"/><circle cx="222" cy="104" r="70"/>
+  </g>
+  <!-- suelo -->
+  <ellipse cx="210" cy="272" rx="170" ry="12" fill="#1c5e47" opacity=".25"/>
+
+  <!-- persona izquierda (entrega la caja) -->
+  <g>
+    <rect x="82" y="236" width="15" height="36" rx="6" fill="#1f4f40"/>
+    <rect x="115" y="236" width="15" height="36" rx="6" fill="#1f4f40"/>
+    <path d="M70 246 v-32 a36 36 0 0 1 72 0 v32 z" fill="#2f8f6b"/>
+    <circle cx="106" cy="148" r="24" fill="#c98f6b"/>
+    <path d="M82 146 a24 24 0 0 1 48 -4 q-10 -12 -26 -10 q-14 2 -22 14z" fill="#3b2a22"/>
+    <path d="M130 196 q34 6 52 14" stroke="#2f8f6b" stroke-width="15" stroke-linecap="round" fill="none"/>
+    <circle cx="184" cy="210" r="8" fill="#c98f6b"/>
+  </g>
+
+  <!-- caja con corazón -->
+  <g>
+    <rect x="182" y="186" width="58" height="48" rx="6" fill="#f2c46d"/>
+    <rect x="182" y="186" width="58" height="12" rx="4" fill="#e3ad4c"/>
+    <path d="M211 226 c-14 -9 -20 -16 -16 -23 c3 -5 11 -5 16 1 c5 -6 13 -6 16 -1 c4 7 -2 14 -16 23z" fill="#e0663a"/>
+  </g>
+
+  <!-- persona derecha (recibe) -->
+  <g>
+    <rect x="292" y="236" width="15" height="36" rx="6" fill="#2b5d6b"/>
+    <rect x="325" y="236" width="15" height="36" rx="6" fill="#2b5d6b"/>
+    <path d="M280 246 v-32 a36 36 0 0 1 72 0 v32 z" fill="#5bbfb0"/>
+    <circle cx="316" cy="148" r="24" fill="#8d5a3f"/>
+    <path d="M292 150 q-2 -30 24 -27 q26 -3 24 27 q-4 -14 -24 -14 q-20 0 -24 14z" fill="#1f1612"/>
+    <path d="M290 196 q-34 6 -52 14" stroke="#5bbfb0" stroke-width="15" stroke-linecap="round" fill="none"/>
+    <circle cx="238" cy="210" r="8" fill="#8d5a3f"/>
+  </g>
+
+  <!-- persona del medio, detrás (se suma con el brazo en alto) -->
+  <g>
+    <path d="M178 186 v-24 a33 33 0 0 1 66 0 v24 z" fill="#8fcf9c"/>
+    <circle cx="211" cy="98" r="22" fill="#e0b08a"/>
+    <path d="M189 98 a22 22 0 0 1 44 0 q2 -12 -8 -20 q-12 -8 -26 -2 q-12 6 -10 22z" fill="#8a4f2a"/>
+    <path d="M240 140 q16 -20 18 -44" stroke="#8fcf9c" stroke-width="13" stroke-linecap="round" fill="none"/>
+    <circle cx="259" cy="92" r="8" fill="#e0b08a"/>
+  </g>
+
+  <g fill="#2a1d17"><circle cx="98" cy="151" r="2.4"/><circle cx="114" cy="151" r="2.4"/></g><path d="M99 159 q7 6 14 0" stroke="#2a1d17" stroke-width="2.4" fill="none" stroke-linecap="round"/><g fill="#2a1d17"><circle cx="203" cy="101" r="2.4"/><circle cx="219" cy="101" r="2.4"/></g><path d="M204 109 q7 6 14 0" stroke="#2a1d17" stroke-width="2.4" fill="none" stroke-linecap="round"/><g fill="#2a1d17"><circle cx="308" cy="151" r="2.4"/><circle cx="324" cy="151" r="2.4"/></g><path d="M309 159 q7 6 14 0" stroke="#2a1d17" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+  <!-- corazones flotando -->
+  <g fill="#ffffff">
+    <path d="M150 74 c-8 -5 -11 -9 -9 -13 c2 -3 6 -3 9 1 c3 -4 7 -4 9 -1 c2 4 -1 8 -9 13z"/>
+    <path d="M288 64 c-6 -4 -9 -7 -7 -10 c1 -2 5 -2 7 1 c2 -3 6 -3 7 -1 c2 3 -1 6 -7 10z" opacity=".85"/>
+    <path d="M330 104 c-5 -3 -7 -6 -6 -8 c1 -2 4 -2 6 1 c2 -3 5 -3 6 -1 c1 2 -1 5 -6 8z" opacity=".7"/>
+  </g>
+</svg>
+`;
 function vInicio(){
   const abiertas = S.needs.filter(n=>n.estado!=="cubierta" && !(diasRestantes(n)<0 && diasRestantes(n)!==null));
   const urg = abiertas.filter(n=>n.urgente).sort((a,b)=>b.creado-a.creado).slice(0,6);
   const lista = urg.length ? urg : [...abiertas].sort((a,b)=>b.creado-a.creado).slice(0,6);
   const camp = abiertas.filter(n=>{const d=diasRestantes(n);return d!==null&&d>=0;}).sort((a,b)=>diasRestantes(a)-diasRestantes(b)).slice(0,6);
   const logros = S.needs.filter(n=>n.estado==="cubierta").length;
-  return `<section class="hero"><div class="kick">UNIVA · Una comunidad que transforma</div>
+  return `<section class="hero"><div class="hero-txt"><div class="kick">UNIVA · Una comunidad que transforma</div>
       <h1>Ayudar es más fácil cuando sabés dónde hace falta</h1>
       <p>Fundaciones, ONG, grupos de iglesia y comedores publican lo que necesitan. Vos elegís cómo dar una mano: donando, sumándote como voluntario o colaborando con dinero.</p>
-      <div class="btns"><a class="btn white" href="#necesidades">Quiero ayudar</a><a class="btn ghost" href="#publicar">Soy una organización</a></div></section>
+      <div class="btns"><a class="btn white" href="#necesidades">Quiero ayudar</a><a class="btn ghost" href="#publicar">Soy una organización</a></div></div><div class="ilus">${ILUS}</div></section>
     <div class="stats">
       <div class="stat"><b>${S.orgs.length}</b><span>organizaciones</span></div>
       <div class="stat"><b>${abiertas.length}</b><span>pedidos abiertos</span></div>
       <div class="stat"><b>${logros}</b><span>metas cumplidas</span></div></div>
+    <div class="fotos">
+      <figure><img src="img/donaciones.jpg" alt="Voluntarias ordenando ropa y alimentos donados en cajas" loading="lazy"><figcaption><b>Cada donación cuenta</b><span>Ropa, alimentos y útiles que llegan a quien los necesita.</span></figcaption></figure>
+      <figure><img src="img/voluntarios.jpg" alt="Voluntarios armando una caja con frutas, verduras y alimentos" loading="lazy"><figcaption><b>Sumate como voluntario</b><span>Tu tiempo también ayuda a transformar tu ciudad.</span></figcaption></figure>
+    </div>
     <h2>${urg.length?"🔴 Pedidos urgentes":"Últimos pedidos"}</h2>
     ${lista.length?`<div class="grid">${lista.map(needCard).join("")}</div>`:`<div class="empty">Todavía no hay pedidos publicados.<br><br><a class="btn small" href="#publicar">Publicar el primero</a></div>`}
     ${camp.length?`<h2>⏳ Campañas que cierran pronto</h2><div class="grid">${camp.map(needCard).join("")}</div>`:""}
